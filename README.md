@@ -1,4 +1,4 @@
-# Summer of Code Journey
+# Seasons of Code Journey
 
 This repository documents my learning journey during SoC 2026.
 
