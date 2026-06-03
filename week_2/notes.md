@@ -384,3 +384,65 @@ Loss = -[ y log(p) + (1 - y) log(1 - p) ]
 - Penalizes wrong confident predictions
 - Goal: minimize loss
 ---
+## Video 9: Decision Tree
+
+### What is a Decision Tree?
+
+- Works by repeatedly splitting data into smaller groups
+- based on feature values.
+
+### Example
+
+ Is Sex = Male?
+        /      \
+      Yes      No
+      /         \
+    Survive=0  Survive=1
+
+### How Does It Choose Splits?
+
+- Decision Trees use measures of impurity.
+
+ Common criteria:
+ - Gini Impurity
+ - Entropy (Information Gain)
+
+
+### Gini Impurity
+
+- Measures how mixed the classes are.
+- Gini = 0
+-> Pure node (all samples belong to one class)
+- Lower Gini is better.
+
+### Entropy
+
+ Measures randomness/disorder in a node.
+
+### Information Gain:
+ Reduction in entropy after a split.
+
+
+### Training a Decision Tree
+```python
+from sklearn.tree import DecisionTreeClassifier
+model = DecisionTreeClassifier()
+model.fit(X_train, y_train)
+```
+
+### Important Parameters
+```python
+DecisionTreeClassifier(
+    criterion='gini',    # or 'entropy'
+    max_depth=None,
+    random_state=42
+)
+```
+#### criterion:
+- 'gini'
+- 'entropy'
+
+#### max_depth:
+- Limits tree depth
+- Helps prevent overfitting
+---
