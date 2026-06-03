@@ -317,7 +317,7 @@ X_train, y_train, X_test, y_test = train_test_split(X,y,test_size=0.2,random_sta
 
 
 ### Preprocessing: Get Dummies (Optimized)
-
+```python
 final_df = pd.get_dummies(
     final_df,
     columns=['salary'],
@@ -325,89 +325,62 @@ final_df = pd.get_dummies(
     dtype=int,
     drop_first=True   # avoids dummy variable trap
 )
-
+```
 
 ### EDA: Department vs Employee Attrition
-
+```python
 pd.crosstab(df.Department, df.left).plot(kind='bar')
-
-"""
+```
 Purpose:
 - Understand how employee leaving (left=1) varies across departments
 - Helps identify high-risk departments
-"""
+
 
 
 ### EDA: Groupby Mean Analysis
-
+```python
 df_num = df.select_dtypes(include='number')
-
 df_num.groupby('left').mean()
-
-"""
+```
 Purpose:
 - Compare average feature values
 - left = 0 → stayed employees
 - left = 1 → left employees
-"""
-
 
 ### Core Theory: Logistic Regression
-
-"""
 Used for:
 - Binary classification problems
 
 Goal:
 - Predict probability that y = 1 (e.g., employee leaves)
-"""
-
 
 ### Linear Combination (Logit)
-
-"""
 z = w0 + w1*x1 + w2*x2 + ... + wn*xn
 
 - z = linear score
 - w = weights learned by model
 - x = input features
-"""
-
 
 ### Sigmoid Function
 
-"""
 p = 1 / (1 + e^(-z))
 
 Converts linear output into probability (0 to 1)
-"""
-
 
 ### Probability Interpretation
-
-"""
 p = probability that y = 1
 Example:
 - p = 0.8 → high chance employee will leave
-"""
-
 
 ### Decision Rule
-
-"""
 if p >= 0.5:
     predict 1
 else:
     predict 0
-"""
-
 
 ### Loss Function (Log Loss)
-
-"""
 Loss = -[ y log(p) + (1 - y) log(1 - p) ]
 
 - Penalizes wrong confident predictions
 - Goal: minimize loss
-"""
 ---
