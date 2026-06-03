@@ -446,3 +446,133 @@ DecisionTreeClassifier(
 - Limits tree depth
 - Helps prevent overfitting
 ---
+## Video 10: Support Vector Machine (SVM)
+
+### What is SVM?
+
+- classification problems
+
+### Margin
+
+- Margin = distance between the decision boundary and the nearest data points.
+- Larger margin = better classification.
+- SVM tries to maximize the margin.
+
+
+### Support Vectors
+
+- The data points closest to the decision boundary
+- These points determine the position of the boundary.
+
+### Hyperplane
+
+- In 2D: Decision boundary = Line
+- In 3D: Decision boundary = Plane
+- In n-dimensions:Decision boundary = Hyperplane
+
+### Gamma
+
+ Gamma controls how far the influence of a training example reaches.
+
+#### High Gamma:
+ - Considers nearby points only
+ - Can lead to overfitting
+
+#### Low Gamma:
+ - Considers far away points also
+ - Smoother decision boundary
+ - May reduce accuracy slightly
+
+### Regularization (C)
+
+- C controls regularization.
+
+#### High C:
+ - Tries to classify all training points correctly
+ - Less tolerance for errors
+ - Can overfit
+
+#### Low C:
+ - Allows some misclassification
+ - Simpler boundary
+ - Better generalization
+
+### Kernel Trick
+- Some datasets cannot be separated using a straight line.
+- SVM can transform features into a higher dimension where separation becomes easier.
+- This transformation is called a Kernel.
+- Kernel helps create complex decision boundaries.
+
+#### Common Kernels
+
+##### Linear Kernel
+- Straight decision boundary
+
+##### RBF Kernel (default)
+- Handles non-linear data well
+
+##### Polynomial Kernel
+- Creates polynomial boundaries
+
+
+
+### Add Flower Names
+```python
+df['flower_name'] = df.target.apply(
+    lambda x: iris.target_names[x]
+)
+```
+
+### Training SVM Model
+```python
+from sklearn.svm import SVC
+model = SVC()
+```
+---
+## Video 11: Random Forest
+
+It is called "Random Forest" because instead of using one decision tree, Random Forest uses multiple decision trees.
+
+### How Random Forest Works
+- Create multiple random subsets of the dataset.
+- Train a separate decision tree on each subset.
+- Make predictions using all trees.
+- Take a majority vote (classification) or average (regression).
+- Final prediction = combined result of all trees.
+
+### Random Forest Classifier
+```python
+from sklearn.ensemble import RandomForestClassifier
+model = RandomForestClassifier()
+```
+### n_estimators
+- Number of decision trees in the forest.
+```python
+model = RandomForestClassifier(
+    n_estimators=10
+)
+```
+- More trees generally improve performance.
+
+### Confusion Matrix
+```python
+from sklearn.metrics import confusion_matrix
+cm = confusion_matrix(
+    y_test,
+    y_pred
+)
+```
+### Visualizing Confusion Matrix
+```python
+import seaborn as sns
+import matplotlib.pyplot as plt
+sns.heatmap(
+    cm,
+    annot=True,
+    fmt='d'
+)
+plt.xlabel("Predicted")
+plt.ylabel("Truth")
+plt.show()
+```
+---
