@@ -317,3 +317,60 @@ from sklearn.model_selection import train_test_split
 X_train, y_train, X_test, y_test = train_test_split(X,y,test_size=0.2,random_state=42)
 ```
 ---
+# Video 8: Logistic Regresion (Binary Classification)
+
+## get dummies optimized
+
+final_df = pd.get_dummies(
+    final_df,
+    columns=['salary'],
+    prefix='salary',
+    dtype=int,
+    drop_first=True   # avoids dummy variable trap
+)
+---
+## EDA
+"""
+Purpose:
+    Check how employee attrition (left=1) varies across departments
+"""
+pd.crosstab(df.Department, df.left).plot(kind='bar')
+"""
+
+"""
+Purpose:
+    Compare feature averages for employees who stayed vs left
+"""
+df_num = df.select_dtypes(include='number')
+
+print(df_num.groupby('left').mean())
+---
+
+## CORE THEORY
+
+"""
+Used for classification problems (binary output)
+
+Goal:
+    Predict probability of class 1 (e.g., employee leaves)
+"""
+
+"""
+Linear combination:
+
+    z = w0 + w1*x1 + w2*x2 + ... + wn*xn
+
+Sigmoid function:
+
+    p = 1 / (1 + e^(-z))
+"""
+
+"""
+Interpretation:
+    p = probability that y = 1
+"""
+"""
+if p >= 0.5 → predict 1
+if p < 0.5  → predict 0
+"""
+---
