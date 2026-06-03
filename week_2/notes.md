@@ -313,14 +313,10 @@ from sklearn.model_selection import train_test_split
 X_train, y_train, X_test, y_test = train_test_split(X,y,test_size=0.2,random_state=42)
 ```
 ---
-# =========================================================
-# Video 8: Logistic Regression (Binary Classification)
-# =========================================================
+## Video 8: Logistic Regression (Binary Classification)
 
 
-# =========================================================
-# PREPROCESSING: GET DUMMIES (OPTIMIZED)
-# =========================================================
+### Preprocessing: Get Dummies (Optimized)
 
 final_df = pd.get_dummies(
     final_df,
@@ -330,16 +326,8 @@ final_df = pd.get_dummies(
     drop_first=True   # avoids dummy variable trap
 )
 
-"""
-Why drop_first=True?
-- Prevents multicollinearity
-- Removes redundant category automatically
-"""
 
-
-# =========================================================
-# EDA: DEPARTMENT vs EMPLOYEE ATTRITION
-# =========================================================
+### EDA: Department vs Employee Attrition
 
 pd.crosstab(df.Department, df.left).plot(kind='bar')
 
@@ -350,9 +338,7 @@ Purpose:
 """
 
 
-# =========================================================
-# EDA: GROUPBY MEAN ANALYSIS
-# =========================================================
+### EDA: Groupby Mean Analysis
 
 df_num = df.select_dtypes(include='number')
 
@@ -366,9 +352,7 @@ Purpose:
 """
 
 
-# =========================================================
-# CORE THEORY: LOGISTIC REGRESSION
-# =========================================================
+### Core Theory: Logistic Regression
 
 """
 Used for:
@@ -379,36 +363,27 @@ Goal:
 """
 
 
-# =========================================================
-# LINEAR COMBINATION (LOGIT)
-# =========================================================
+### Linear Combination (Logit)
 
 """
 z = w0 + w1*x1 + w2*x2 + ... + wn*xn
 
 - z = linear score
-- w = weights (learned by model)
+- w = weights learned by model
 - x = input features
 """
 
 
-# =========================================================
-# SIGMOID FUNCTION
-# =========================================================
+### Sigmoid Function
 
 """
-Converts linear output into probability:
-
 p = 1 / (1 + e^(-z))
 
-Output range:
-- Always between 0 and 1
+Converts linear output into probability (0 to 1)
 """
 
 
-# =========================================================
-# PROBABILITY INTERPRETATION
-# =========================================================
+### Probability Interpretation
 
 """
 p = probability that y = 1
@@ -417,9 +392,7 @@ Example:
 """
 
 
-# =========================================================
-# DECISION RULE
-# =========================================================
+### Decision Rule
 
 """
 if p >= 0.5:
@@ -429,30 +402,12 @@ else:
 """
 
 
-# =========================================================
-# LOSS FUNCTION (LOG LOSS)
-# =========================================================
+### Loss Function (Log Loss)
 
 """
 Loss = -[ y log(p) + (1 - y) log(1 - p) ]
 
-- Penalizes wrong predictions heavily
+- Penalizes wrong confident predictions
 - Goal: minimize loss
-"""
-
-
-# =========================================================
-# KEY TAKEAWAYS
-# =========================================================
-
-"""
-- Logistic Regression = classification algorithm
-- Uses sigmoid function
-- Output = probability (0 to 1)
-- Requires encoding categorical variables
-- Used for binary problems like:
-  - churn prediction
-  - spam detection
-  - yes/no classification
 """
 ---
