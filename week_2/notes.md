@@ -215,31 +215,30 @@ mj = joblib.load('model_joblib')
 
 - `'wb'` → write binary
 - `'rb'` → read binary
-
-# Video 6: Dummy variables & One Hot Encoding
+---
+## Video 6: Dummy variables & One Hot Encoding
 
 ML models cannot directly use text → we convert it.
 
----
 
-## 2. Types of Categorical Variables
 
-### Nominal
+### 2. Types of Categorical Variables
+
+#### Nominal
 No order (e.g. town, color, gender)
 
-### Ordinal
+#### Ordinal
 Has order (e.g. low < medium < high)
 
----
 
-## Why not Label Encoding?
+### Why not Label Encoding?
 
 Model assumes:
 2 > 1 > 0 (wrong meaning)
 
----
 
-## 4. One Hot Encoding (Dummy Variables)
+
+### 4. One Hot Encoding (Dummy Variables)
 
 Convert categories into binary columns:
 
@@ -249,45 +248,42 @@ Convert categories into binary columns:
 | West  | 0 | 1 | 0 |
 | Rob   | 0 | 0 | 1 |
 
----
 
-## 5. Pandas Method
+
+### 5. Pandas Method
 
 ```python
 dummies = pd.get_dummies(df.town)
 df = pd.concat([df, dummies], axis=1)
 ```
----
 
-## 6. Dummy Variable Trap
+### 6. Dummy Variable Trap
 
 Avoid multicollinearity:
 Drop one dummy column
 
----
 
-## 11. Model Score
+### 11. Model Score
 
 ```python
 model.score(X, y)
 ```
 Returns R² score (accuracy of model)
 
----
 
-## 12. Alternative: Label Encoding + OneHotEncoder
+### 12. Alternative: Label Encoding + OneHotEncoder
 
 ```python
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder
 ```
 
-### Label Encoding:
+#### Label Encoding:
 ```python
 le = LabelEncoder()
 df.town = le.fit_transform(df.town)
 ```
 
-### OneHotEncoder:
+#### OneHotEncoder:
 ```python
 from sklearn.compose import ColumnTransformer
 
@@ -300,7 +296,7 @@ X = ct.fit_transform(X)
 ```
 
 ---
-# Video 7: Train Test Split
+## Video 7: Train Test Split
 
 In machine learning, we want to:
 - Train a model on data
@@ -317,9 +313,14 @@ from sklearn.model_selection import train_test_split
 X_train, y_train, X_test, y_test = train_test_split(X,y,test_size=0.2,random_state=42)
 ```
 ---
-# Video 8: Logistic Regresion (Binary Classification)
+# =========================================================
+# Video 8: Logistic Regression (Binary Classification)
+# =========================================================
 
-## get dummies optimized
+
+# =========================================================
+# PREPROCESSING: GET DUMMIES (OPTIMIZED)
+# =========================================================
 
 final_df = pd.get_dummies(
     final_df,
@@ -328,49 +329,130 @@ final_df = pd.get_dummies(
     dtype=int,
     drop_first=True   # avoids dummy variable trap
 )
----
-## EDA
+
 """
-Purpose:
-    Check how employee attrition (left=1) varies across departments
+Why drop_first=True?
+- Prevents multicollinearity
+- Removes redundant category automatically
 """
+
+
+# =========================================================
+# EDA: DEPARTMENT vs EMPLOYEE ATTRITION
+# =========================================================
+
 pd.crosstab(df.Department, df.left).plot(kind='bar')
-"""
 
 """
 Purpose:
-    Compare feature averages for employees who stayed vs left
+- Understand how employee leaving (left=1) varies across departments
+- Helps identify high-risk departments
 """
+
+
+# =========================================================
+# EDA: GROUPBY MEAN ANALYSIS
+# =========================================================
+
 df_num = df.select_dtypes(include='number')
 
-print(df_num.groupby('left').mean())
----
-
-## CORE THEORY
+df_num.groupby('left').mean()
 
 """
-Used for classification problems (binary output)
+Purpose:
+- Compare average feature values
+- left = 0 → stayed employees
+- left = 1 → left employees
+"""
+
+
+# =========================================================
+# CORE THEORY: LOGISTIC REGRESSION
+# =========================================================
+
+"""
+Used for:
+- Binary classification problems
 
 Goal:
-    Predict probability of class 1 (e.g., employee leaves)
+- Predict probability that y = 1 (e.g., employee leaves)
 """
 
-"""
-Linear combination:
 
-    z = w0 + w1*x1 + w2*x2 + ... + wn*xn
-
-Sigmoid function:
-
-    p = 1 / (1 + e^(-z))
-"""
+# =========================================================
+# LINEAR COMBINATION (LOGIT)
+# =========================================================
 
 """
-Interpretation:
-    p = probability that y = 1
+z = w0 + w1*x1 + w2*x2 + ... + wn*xn
+
+- z = linear score
+- w = weights (learned by model)
+- x = input features
 """
+
+
+# =========================================================
+# SIGMOID FUNCTION
+# =========================================================
+
 """
-if p >= 0.5 → predict 1
-if p < 0.5  → predict 0
+Converts linear output into probability:
+
+p = 1 / (1 + e^(-z))
+
+Output range:
+- Always between 0 and 1
+"""
+
+
+# =========================================================
+# PROBABILITY INTERPRETATION
+# =========================================================
+
+"""
+p = probability that y = 1
+Example:
+- p = 0.8 → high chance employee will leave
+"""
+
+
+# =========================================================
+# DECISION RULE
+# =========================================================
+
+"""
+if p >= 0.5:
+    predict 1
+else:
+    predict 0
+"""
+
+
+# =========================================================
+# LOSS FUNCTION (LOG LOSS)
+# =========================================================
+
+"""
+Loss = -[ y log(p) + (1 - y) log(1 - p) ]
+
+- Penalizes wrong predictions heavily
+- Goal: minimize loss
+"""
+
+
+# =========================================================
+# KEY TAKEAWAYS
+# =========================================================
+
+"""
+- Logistic Regression = classification algorithm
+- Uses sigmoid function
+- Output = probability (0 to 1)
+- Requires encoding categorical variables
+- Used for binary problems like:
+  - churn prediction
+  - spam detection
+  - yes/no classification
 """
 ---
