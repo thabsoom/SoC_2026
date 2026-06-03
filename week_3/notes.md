@@ -1,9 +1,9 @@
 
 # Deep Learning & CNN
----
+
 ## Resources
 - playlist : https://www.youtube.com/playlist?list=PLeo1K3hjS3uu7CxAacxVndI4bE_o3BDtO
----
+
 ## Video 3: What is a Neuron?
 
 ### Artificial Neuron
@@ -26,6 +26,7 @@ where:
 
 - Output = Activation(z)
 - Converts weighted sum into useful output.
+---
 
 ## Video 4: Neural Network Simply Explained
 
