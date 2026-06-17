@@ -788,4 +788,103 @@ df = pd.DataFrame(scores,columns=['model','best_score','best_params'])
 df
 ```
 ---
+## Video 17 : L1 and L2 regularization
 
+- Lasso Regression (L1 regularization)
+- Ridge Regression (L2 regularization)
+- Reduce overfitting by penalizing large coefficients.
+
+### preprocessing
+```python
+dataset[zero_fill_cols] = dataset[zero_fill_cols].fillna(0)
+dataset['Landsize'] = dataset['Landsize'].fillna(dataset['Landsize'].mean())
+dataset.dropna(inplace=True)
+dataset = pd.get_dummies(dataset, drop_first=True)
+```
+### LASSO REGRESSION (L1)
+```python
+from sklearn.linear_model import Lasso
+lasso_reg = Lasso(alpha=50, max_iter=100, tol=0.1)
+lasso_reg.fit(train_X, train_y)
+```
+L1 Regularization (Lasso):
+Loss = MSE + alpha * sum(|weights|)
+
+Effect:
+- Shrinks some coefficients to EXACT 0
+- Performs feature selection
+###  RIDGE REGRESSION (L2)
+from sklearn.linear_model import Ridge
+ridge_reg = Ridge(alpha=50, max_iter=100, tol=0.1)
+ridge_reg.fit(train_X, train_y)
+
+L2 Regularization (Ridge):
+Loss = MSE + alpha * sum(weights^2)
+
+Effect:
+- Shrinks coefficients smoothly (NOT zero)
+- Reduces overfitting
+
+
+WHEN TO USE:
+- Lasso → when many features irrelevant
+- Ridge → when all features somewhat useful
+---
+## Video 18 : K Nearest Neighbors Classifciation
+```python
+from sklearn.neighbors import KNeighborsClassifier
+knn = KNeighborsClassifier(n_neighbors=10)
+# visualization of confusion matrix:
+%matplotlib inline
+import matplotlib.pyplot as plt
+import seaborn as sn
+plt.figure(figsize=(7,5))
+sn.heatmap(cm, annot=True)
+plt.xlabel('Predicted')
+plt.ylabel('Truth')
+# classification report for precision recall and f1 score for each classes:
+from sklearn.metrics import classification_report
+print(classification_report(y_test, y_pred))
+```
+---
+## Video 19 and 20 : Principal Component Analysis (PCA) + Bagging
+```python
+#better to make a function and do an & by doing all filtering on the main df..this is sequential
+df1 = df[df.Cholesterol<=(df.Cholesterol.mean()+3*df.Cholesterol.std())]
+df1.shape
+```
+- Label Encoding for ordinal values
+```python
+df4.ExerciseAngina=
+df4.ExerciseAngina.replace(
+    {
+        'N': 0,
+        'Y': 1
+    },
+    inplace=True)
+```
+- PCA:
+```python
+from sklearn.decomposition import PCA
+pca = PCA(0.95)
+X_pca = pca.fit_transform(X)
+X_train_pca, X_test_pca, y_train, y_test = train_test_split(X_pca, y, test_size=0.2, random_state=30)
+```
+- Bagging
+```python
+from sklearn.ensemble import BaggingClassifier
+bag_model = BaggingClassifier(
+    estimator=DecisionTreeClassifier(random_state=0), 
+    n_estimators=100, 
+    max_samples=0.9, 
+    oob_score=True,
+    random_state=0
+)
+scores = cross_val_score(bag_model, X, y, cv=5)
+scores.mean()
+```
+- Random forest classifier is bagging with n  decision trees with additional feature split like both column and rows gets bagged :
+```python
+from sklearn.ensemble import RandomForestClassifier
+```
+---
