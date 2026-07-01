@@ -698,6 +698,26 @@ model = Sequential([
 ---
 ## Video 27 : Transfer learning
 Transfer Learning involves using a pre-trained model (trained on a large dataset) as the starting point for a new task. Instead of training a deep neural network from scratch, we reuse the learned features and fine-tune the model on our target dataset, reducing training time and improving performance.
+```python
+# to use a model to classify something for you : 
+classifier = tf.keras.applications.MobileNetV2(
+    weights='imagenet',
+    include_top=True,
+    input_shape=(224,224,3)
+)
+# to use it on another dataset and retrain : 
+pretrained_model_without_top_layer = tf.keras.applications.MobileNetV2(
+    weights='imagenet',
+    include_top=False,
+    input_shape=(224,224,3),
+)
+model = tf.keras.Sequential([
+  pretrained_model_without_top_layer,
+  tf.keras.layers.GlobalAveragePooling2D(),
+  tf.keras.layers.Dense(num_of_flowers)
+])
+#compile, fit and evaluate
+```
 ---
 ## Video 28 : Image Classification vs Object detection vs Image Segmentation
 
@@ -735,22 +755,16 @@ ImageNet is mainly used for classification and pre-training, while COCO and Open
 - Each window is passed through a classifier to determine whether it contains the target object.
 - To detect objects of different sizes, the image is processed at multiple scales using an image pyramid.
 - Although conceptually simple, Sliding Window is computationally expensive because the classifier must evaluate a large number of overlapping regions.
-
-**Key Idea:** Instead of classifying the entire image, Sliding Window systematically scans different parts of the image to locate objects.
 ---
 ## Video 31 : What is YOLO Algorithm ?
-
+- You Only Look Once!
 - YOLO is a real-time object detection algorithm that detects and classifies objects in a single pass through the neural network.
 - Unlike Sliding Window methods, YOLO processes the entire image at once, making it significantly faster.
 - The image is divided into a grid, and each grid cell predicts bounding boxes, confidence scores, and object classes.
-- YOLO treats object detection as a single regression problem, directly predicting object locations and categories.
-
-**Advantages:**
-
-- Very fast and suitable for real-time applications.
-- Considers the entire image context while making predictions.
-
-**Key Idea:** YOLO performs object localization and classification simultaneously in one network pass, enabling efficient real-time object detection.
+- YOLO performs object localization and classification simultaneously in one network pass, enabling efficient real-time object detection.
+- say you want to detect two objects, the 16 grids will each have a 7*1 vector with informations like probability,x coordinate, y coordinate,width and height of the bounding boxes which class is 0 and which class is 1 etc..
+- if multiple bounding boxes are created, we use IOU, Ingtersection over union method. ie = intersection area/union area > 0.65 means its the same object having multiple bounding box so remove the one with less probability score
+- when the centre of multiple objects fall into a single grid there is anchoring which outputs say 14*1 output and so on.
 ---
 ## Video 32 : Object detection using YOLO v4 and pre trained model
 
@@ -758,14 +772,4 @@ ImageNet is mainly used for classification and pre-training, while COCO and Open
 - Instead of training a model from scratch, a pre-trained YOLOv4 model can be used to detect common objects such as people, cars, animals, and traffic signs.
 - The model predicts bounding boxes, confidence scores, and class labels for detected objects in an image.
 - Using pre-trained weights significantly reduces training time and allows object detection with minimal setup.
-
-**Key Concepts:**
-
-- Pre-trained weights
-- Bounding boxes
-- Confidence scores
-- Object classes
-- Real-time object detection
-
-**Key Idea:** YOLOv4 leverages pre-trained models to perform fast and accurate object detection without requiring extensive training on large datasets.
 ---
