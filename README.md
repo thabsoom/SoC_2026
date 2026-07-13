@@ -8,3 +8,4 @@ This repository documents my learning journey during SoC 2026.
 - Week 2 : ML Basics
 - Week 3 : Deep Learning and CNN
 - Week 4 : Intro to LLM
+- Week 5 : Expploratory data analysis
