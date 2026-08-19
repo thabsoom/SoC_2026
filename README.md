@@ -27,7 +27,6 @@ The final project has been moved to a separate repository:
 - Pandas
 - Matplotlib
 - Scikit-learn
-- TensorFlow / PyTorch (whichever you used)
 - YOLOv8
 - Streamlit
 - Ollama
